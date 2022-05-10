@@ -12,7 +12,8 @@
     to our private dad joke community!
   </p>
   <div class="grid grid-cols-2 gap-6">
-    <% if user_signed_in? && !current_user.subscribed? %>
+    <%# <% if user_signed_in? && !current_user.subscribed? %> 
+    <% if user_signed_in? %>
       <%= form_tag purchase_checkouts_path, method: :post, data: { turbo: false } do %>
         <input type="hidden" name="price_id" value="<%= Rails.application.credentials.dig(:stripe, :pricing, :monthly)%>" />
         <input type="submit" value="Subscribe for $9/mo" class="px-3 py-4 bg-teal-600 hover:bg-teal-700 block no-underline w-full text-center rounded font-bold text-white shadow-sm cursor-pointer" />
