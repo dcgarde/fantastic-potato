@@ -6,6 +6,7 @@ class Purchase::CheckoutsController < ApplicationController
 
         session = Stripe::Checkout::Session.create(
             customer: current_user.stripe_id,
+            customer_email: current_user.email,
             client_reference_id: current_user.id,
             success_url: root_url + "success?session_id={CHECKOUT_SESSION_ID}",
             cancel_url: pricing_url,
@@ -18,5 +19,10 @@ class Purchase::CheckoutsController < ApplicationController
             }]
         )
         redirect_to session.url, allow_other_host: true
+    end
+
+    def success
+        session = Stripe::Checkout::Session.retrieve(params[:session_id])
+        @customer = Stripe::Customer.retrieve(session.customer)
     end
 end

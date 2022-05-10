@@ -15,14 +15,18 @@ Rails.application.routes.draw do
   scope controller: :static do
     get :pricing
   end
+  
+  resources :billings, only: :create
 
   namespace :purchase do
     resources :checkouts
   end
 
-  get "success", to: "checkouts#success"
+  get "success", to: "purchase/checkouts#success"
 
   resources :subscriptions
+
+  resources :webhooks, only: :create
 
 
 end
